@@ -48,7 +48,7 @@
             let firstTime = true;
 
             //Recieve ISS Location
-            const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+            const api_url = '/location';
             async function getISS(){
                 const response = await fetch(api_url); 
                 const data = await response.json();
@@ -59,8 +59,8 @@
                     firstTime = false;
                 }
                 marker.setLatLng([latitude, longitude]);    
-                document.getElementById('lat').textContent = latitude.toFixed(2);     
-                document.getElementById('long').textContent = longitude.toFixed(2);
+                document.getElementById('lat').textContent = latitude;     
+                document.getElementById('long').textContent = longitude;
             }
 
             getISS();  
