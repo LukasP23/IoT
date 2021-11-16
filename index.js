@@ -25,15 +25,43 @@ con.connect(function (err) {
 app.get("/location", (request, response) => {
   con.query(
     "SELECT * FROM data \n " +
-      "Limit 1 ",
+      "Order by published_at DESC \n" +
+        "Limit 1 ",
 
     function (err, result, fields) {
       if (err) throw err;
 
-      const latitude = result[0].latitude;
-      const longitude = result[0].longitude;
+      const temperature = result[0].temperature;
+      const time = "'" + result[0].published_at + "'";
 
-      response.json({ latitude, longitude });
+      const latitudeTBC = "5554.4547";
+      //result[0].latitude;
+      const NS = "N";
+      //result[0].northSouth;
+      const lat1 = latitudeTBC.slice(0, 2);
+      const lat2 = (latitudeTBC.slice(2))/60;
+      latitude = parseFloat(lat1) + parseFloat(lat2);
+      if (NS == "S")
+      {
+        latitude = -latitude;
+      }
+    
+      const longitudeTBC = "339.1669";
+      //result[0].longitude;
+      const EW = "W";
+      //result[0].eastWest;
+      const long1 = longitudeTBC.slice(0, 1);
+      const long2 = (longitudeTBC.slice(1))/60;
+      longitude = parseFloat(long1) + parseFloat(long2);
+      if (EW == "W")
+      {
+        longitude = -longitude;
+      }
+    
+
+      console.log(result);
+
+      response.json({ temperature, latitude, longitude, time });
     }
   );
 });

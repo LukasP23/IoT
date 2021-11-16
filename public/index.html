@@ -23,8 +23,10 @@
 
         <h1>Where is the ISS?</h1>
 
+        <p>temperature: <span id="temp"></span><br /></p>
         <p>latitude: <span id="lat"></span><br /></p>
         <p>longitude: <span id="long"></span><br /></p>
+        <p>published at: <span id="time"></span><br /></p>
         
         <div id="ISSmap"></div>
 
@@ -52,15 +54,18 @@
             async function getISS(){
                 const response = await fetch(api_url); 
                 const data = await response.json();
-                const { latitude, longitude } = data;
+                const { temperature, latitude, longitude, time } = data;
 
                 if (firstTime) {
-                    mymap.setView([latitude, longitude], 2);
+                    mymap.setView([latitude, longitude], 15);
                     firstTime = false;
                 }
-                marker.setLatLng([latitude, longitude]);    
+                marker.setLatLng([latitude, longitude]);  
+
+                document.getElementById('temp').textContent = temperature;   
                 document.getElementById('lat').textContent = latitude;     
                 document.getElementById('long').textContent = longitude;
+                document.getElementById('time').textContent = time;
             }
 
             getISS();  
