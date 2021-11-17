@@ -4,7 +4,7 @@
         <meta charset ="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-="X-UA-Compatible" content="ie=edge" />
-        <title>Coding Train: Data/APIs 1</title>  
+        <title>MooApp</title>  
         <link rel="stylesheet" 
         href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -14,25 +14,25 @@
          crossorigin=""
          ></script>
          <style>
-             #ISSmap { 
-                 height: 180px; 
+             #cowMap { 
+                 height: 500px; 
                 }
          </style>
     </head> 
     <body>
 
-        <h1>Where is the ISS?</h1>
+        <h1>MooApp - Your Cow Health Monitor</h1>
 
-        <p>temperature: <span id="temp"></span><br /></p>
-        <p>latitude: <span id="lat"></span><br /></p>
-        <p>longitude: <span id="long"></span><br /></p>
-        <p>published at: <span id="time"></span><br /></p>
+        <p>Cow Temperature: <span id="temp"></span><br /></p>
+        <p>Last Reading: <span id="time"></span>, <span id="day"></span> <span id="date"></span>-<span id="month"></span>-<span id="year"></span><br /></p>
         
-        <div id="ISSmap"></div>
+        <div id="cowMap"></div>
+
+        <p>Cow Location: <span id="lat"></span>°, <span id="long"></span>°<br /></p>
 
         <script>
             //Create Map
-            const mymap = L.map('ISSmap').setView([0, 0], 1);
+            const mymap = L.map('cowMap').setView([0, 0], 1);
             const attribution = 
                     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
             const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';    
@@ -42,34 +42,39 @@
             //Create Icon
             var cowIcon = L.icon({
                 iconUrl: 'Cow.png',
-                iconSize:     [50, 32],
-                iconAnchor:   [25, 16]
+                iconSize:     [16, 16],
+                iconAnchor:   [8, 8]
               });
             const marker = L.marker([0, 0], { icon: cowIcon}).addTo(mymap);
 
             let firstTime = true;
 
-            //Recieve ISS Location
-            const api_url = '/location';
-            async function getISS(){
+            //Recieve Cow Location
+            const api_url = '/cow';
+            async function getCowData(){
                 const response = await fetch(api_url); 
                 const data = await response.json();
-                const { temperature, latitude, longitude, time } = data;
+                const { temperature, latitude, longitude, day, month, date, year, time } = data;
 
                 if (firstTime) {
-                    mymap.setView([latitude, longitude], 15);
+                    mymap.setView([latitude, longitude], 17);
                     firstTime = false;
                 }
                 marker.setLatLng([latitude, longitude]);  
 
                 document.getElementById('temp').textContent = temperature;   
-                document.getElementById('lat').textContent = latitude;     
-                document.getElementById('long').textContent = longitude;
+                document.getElementById('lat').textContent = latitude.toFixed(3);     
+                document.getElementById('long').textContent = longitude.toFixed(3);
+                document.getElementById('day').textContent = day;
+                document.getElementById('month').textContent = month;
+                document.getElementById('date').textContent = date;
+                document.getElementById('year').textContent = year;
                 document.getElementById('time').textContent = time;
+
             }
 
-            getISS();  
-            setInterval(getISS, 1000);
+            getCowData();  
+            setInterval(getCowData, 1000);
         </script>
     </body>
 
