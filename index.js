@@ -33,7 +33,8 @@ app.get("/cow", (request, response) => {
     function (err, result, fields) {
       if (err) throw err;
 
-      const temperature = result[0].temperature;
+      const temperature = 21.057435;
+      //result[0].temperature;
 
       const published_at = "' " + result[0].published_at + " '";
       //const time = result[0].published_at;
