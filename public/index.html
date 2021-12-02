@@ -62,7 +62,7 @@
                 }
                 marker.setLatLng([latitude, longitude]);  
 
-                document.getElementById('temp').textContent = temperature;   
+                document.getElementById('temp').textContent = temperature.toFixed(2);;   
                 document.getElementById('lat').textContent = latitude.toFixed(3);     
                 document.getElementById('long').textContent = longitude.toFixed(3);
                 document.getElementById('day').textContent = day;
