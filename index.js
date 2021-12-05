@@ -33,11 +33,10 @@ app.get("/cow", (request, response) => {
     function (err, result, fields) {
       if (err) throw err;
 
-      const temperature = 21.057435;
-      //result[0].temperature;
+      //const temperature = 21.057435;
+      const temperature = parseFloat(result[0].temperature);
 
       const published_at = "' " + result[0].published_at + " '";
-      //const time = result[0].published_at;
       const tempTime = published_at.split(" ");
       const day = tempTime[1];
       const month = tempTime[2];
@@ -46,10 +45,10 @@ app.get("/cow", (request, response) => {
       const time = tempTime[5];
 
 
-      const latitudeTBC = "5554.4547";
-      //result[0].latitude;
-      const NS = "N";
-      //result[0].northSouth;
+      //const latitudeTBC = "5554.4547";
+      const latitudeTBC = result[0].latitude;
+      //const NS = "N";
+      const NS = result[0].northSouth;
       const lat1 = latitudeTBC.slice(0, 2);
       const lat2 = (latitudeTBC.slice(2))/60;
       latitude = parseFloat(lat1) + parseFloat(lat2);
@@ -58,10 +57,10 @@ app.get("/cow", (request, response) => {
         latitude = -latitude;
       }
     
-      const longitudeTBC = "339.1669";
-      //result[0].longitude;
-      const EW = "W";
-      //result[0].eastWest;
+      //const longitudeTBC = "339.1669";
+      const longitudeTBC = result[0].longitude;
+      //const EW = "W";
+      const EW = result[0].eastWest;
       const long1 = longitudeTBC.slice(0, 1);
       const long2 = (longitudeTBC.slice(1))/60;
       longitude = parseFloat(long1) + parseFloat(long2);
@@ -69,8 +68,6 @@ app.get("/cow", (request, response) => {
       {
         longitude = -longitude;
       }
-
-      //console.log(result);
 
       response.json({ temperature, latitude, longitude, day, month, date ,year, time });
     }

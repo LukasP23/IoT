@@ -23,7 +23,7 @@
 
         <h1>MooApp - Your Cow Health Monitor</h1>
 
-        <p>Cow Temperature: <span id="temp"></span><br /></p>
+        <p>Cow Temperature: <span id="temp"></span>°C<br /></p>
         <p>Last Reading: <span id="time"></span>, <span id="day"></span> <span id="date"></span>-<span id="month"></span>-<span id="year"></span><br /></p>
         
         <div id="cowMap"></div>
@@ -62,7 +62,7 @@
                 }
                 marker.setLatLng([latitude, longitude]);  
 
-                document.getElementById('temp').textContent = temperature.toFixed(2);;   
+                document.getElementById('temp').textContent = temperature.toFixed(1);  
                 document.getElementById('lat').textContent = latitude.toFixed(3);     
                 document.getElementById('long').textContent = longitude.toFixed(3);
                 document.getElementById('day').textContent = day;
